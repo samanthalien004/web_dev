@@ -8,7 +8,7 @@
         background-color: #6969b3;
         border: 0px;
         color: #ffffffca;
-        border-radius: 6px;
+        border-radius: 5px;
         box-shadow: 3px 5px 5px black;
       }
 
@@ -31,19 +31,37 @@
       }
 
       .displayContainer {
+        font-size: 25px;
+        width: 365px;
+        height: 80px;
+        background-color: rgb(255, 223, 254);
         display: flex;
         justify-content: flex-end;
-        width: 390px;
+        margin-left: 15px;
+        margin-bottom: 10px;
+        border-radius:5px;
+        box-shadow: 3px 5px 5px black;
+
       }
 
       #display {
         margin-right: 20px;
       }
+
+      .calculator {
+        border-radius: 5px;
+        background-color: rgb(192, 197, 235);
+        width: 400px;
+        height: 430px;
+        box-shadow: 3px 5px 5px black;
+      }
+
     </style>
   </head>
 
   <body>
-    <h1>Calculator</h1>
+  <div class="calculator">
+    <h1 style="font-family: Arial, Helvetica, sans-serif; margin:20px; padding-top: 15px;"> Samantha's Calculator</h1>
     <div class="displayContainer">
       <span id="display"></span>
     </div>
@@ -71,7 +89,12 @@
 
       <button class="button parenthesis">(</button>
       <button class="button parenthesis">)</button>
+      <button class="button clear" style="background-color:rgb(69, 44, 44);">C</button>
+      <button class="button delete" style="background-color:rgb(69, 44, 44);">DEL</button>
     </div>
+  </div>
+
+    
 
     <script>
       const numbersArr = Array.from(document.getElementsByClassName("number"));
@@ -149,6 +172,44 @@
           data.appendStringParenthesis(elem.innerText);
         });
       });
+
+    
+    //Assignment 1: Expression Tree
+    document.querySelector(".equals").addEventListener("click", function() {    //implement equals and operations
+      let tree = new Tree();
+      console.log(data.displayString);
+      let postfix = tree.infixToPostfix(data.displayString);
+      
+      console.log("Postfix Expression: ", postfix);  
+
+      let rootNode = tree.createTree(postfix);
+      let result = tree.solve(rootNode);
+        
+      console.log("Result of Expression: ", result); 
+      
+      // Update the display
+      data.displayString = result.toString();
+      display.innerText = result.toString();
+
+    });
+
+    //button to clear input
+    document.querySelector(".clear").addEventListener("click", function(){ 
+      data.displayString = "0";
+      data.updateDisplay();
+    });
+
+    //button to delete input char by char
+    document.querySelector(".delete").addEventListener("click",function(){
+      if (data.displayString.length > 1){
+        data.displayString= data.displayString.slice(0,-1);
+      } else {
+        data.displayString = "0";
+      }
+      data.updateDisplay();
+    });
+
     </script>
+    <script src="calculator.js"></script>
   </body>
 </html>
